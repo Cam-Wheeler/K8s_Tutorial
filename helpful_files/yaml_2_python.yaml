@@ -1,0 +1,46 @@
+# Examples of yaml and how that looks in python to help visualise.
+
+string: hello               # {'string': 'hello'}
+number: 42                  # {'number': 42}
+float: 3.14                 # {'float': 3.14}
+boolean: true               # {'boolean': True}
+null_value: null            # {'null_value': None}
+date: 2024-01-15            # {'date': datetime.date(2024, 1, 15)}
+
+# List (sequence) PREFERRED
+list_1:                      # {'items': ['apple', 'banana', 'cherry']}
+  - apple
+  - banana
+  - cherry
+
+# Inline list
+list_2: [apple, banana]      # {'items': ['apple', 'banana']}
+
+# Dictionary (mapping) PREFERRED
+dict_1:                     # {'person': {'name': 'Alice', 'age': 30}}
+  name: Alice
+  age: 30
+
+# Inline dict
+dict_2: {name: Alice}       # {'person': {'name': 'Alice'}}
+
+# Nested structures
+users:                      # {'users': [
+  - name: Alice             #   {'name': 'Alice', 'roles': ['admin', 'user']},
+    roles:                  #   {'name': 'Bob', 'roles': ['user']}
+      - admin               # ]}
+      - user
+  - name: Bob
+    roles:
+      - user
+
+# Multi line strings (handy when setting up envs for prototyping)
+# Literal block (preserves newlines)
+description_newlines: |              # {'description': 'line 1\nline 2\n'}
+  line 1
+  line 2
+
+# Folded block (joins lines with spaces)
+description_no_newlines: >              # {'description': 'this is one long line\n'}
+  this is
+  one long line

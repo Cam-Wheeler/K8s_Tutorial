@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-01-06T09:37:27.690311",
+  "best_test_accuracy": 73.68,
+  "final_train_loss": 0.680277196457014,
+  "final_train_accuracy": 76.264,
+  "final_test_loss": 0.7664561470982375,
+  "final_test_accuracy": 73.62,
+  "total_epochs": 50,
+  "config": {
+    "model_conf": {
+      "model_name": "simple_cnn",
+      "input_shape": 3,
+      "hidden_dim": 32,
+      "layers": 2,
+      "num_classes": 10
+    },
+    "trainer_conf": {
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "epochs": 50
+    },
+    "dataset_conf": {
+      "data_dir": "./data",
+      "batch_size": 64,
+      "num_workers": 4,
+      "save_path": "./checkpoints/best_model.pth"
+    },
+    "device": "mps"
+  }
+}

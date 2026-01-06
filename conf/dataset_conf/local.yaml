@@ -1,0 +1,4 @@
+data_dir: ./data
+batch_size: 64
+num_workers: 4
+save_path: ./checkpoints/best_model.pth

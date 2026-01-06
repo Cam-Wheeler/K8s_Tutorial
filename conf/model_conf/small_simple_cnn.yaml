@@ -1,0 +1,5 @@
+model_name: simple_cnn
+input_shape: 3
+hidden_dim: 32
+layers: 2
+num_classes: 10

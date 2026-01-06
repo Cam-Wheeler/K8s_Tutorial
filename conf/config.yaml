@@ -1,0 +1,6 @@
+defaults:
+  - model_conf: small_simple_cnn
+  - trainer_conf: default_trainer
+  - dataset_conf: local
+  - _self_
+device: mps
