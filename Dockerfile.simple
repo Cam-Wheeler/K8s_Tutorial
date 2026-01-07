@@ -1,0 +1,23 @@
+FROM nvidia/cuda:13.1.0-runtime-ubuntu24.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    python3-venv \
+    vim \
+    htop \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN python3 -m venv /opt/.venv
+
+ENV PATH="/opt/.venv/bin:$PATH"
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY conf src main.py /app/
+
+# CMD ["python3", "main.py"] # Again not really needed as we will run a command in K8s
