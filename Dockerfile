@@ -40,6 +40,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
+ENV PATH="/app/.venv/bin:$PATH"
+
 COPY --from=builder /app/.venv /app/.venv
 
 COPY conf src main.py /app/
