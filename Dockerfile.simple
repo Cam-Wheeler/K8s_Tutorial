@@ -18,6 +18,8 @@ ENV PATH="/opt/.venv/bin:$PATH"
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY conf src main.py /app/
+COPY conf ./conf
+COPY src ./src
+COPY main.py ./
 
 # CMD ["python3", "main.py"] # Again not really needed as we will run a command in K8s

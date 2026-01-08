@@ -3,7 +3,7 @@ name = "k8s-tutorial"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = "==3.12.*"
 dependencies = [
     "hydra-core>=1.3.2",
     "torch>=2.9.1",

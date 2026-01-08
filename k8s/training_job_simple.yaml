@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: wheeler-k8s-tutorial-job-simple
+  labels:
+    eidf/user: cwheeler-eidf220
+    kueue.x-k8s.io/queue-name: eidf220ns-user-queue
+    kueue.x-k8s.io/priority-class: batch-workload-priority
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 6000 # Sets the TTL to delete the job once its done.
+  template:
+    metadata:
+      labels:
+        eidf/user: cwheeler-eidf220 
+    spec:
+      nodeSelector:
+        nvidia.com/gpu.product: "NVIDIA-A100-SXM4-40GB"
+      volumes:
+      - name: images
+        persistentVolumeClaim:
+          claimName: cwheeler-data
+      containers:
+      - name: training-pod
+        image: camwheeler135/k8s_tutorial_simple:0.0.1 
+        imagePullPolicy: Always
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          python3 main.py dataset_conf=hpc_cluster model_conf=small_simple_cnn trainer_conf=default_trainer
+          EXIT_CODE=$?
+          echo "Fixing permissions for user 28853..."
+          chown -R 28853:5455 /data
+          chmod -R 775 /data
+          exit $EXIT_CODE
+        resources:
+          requests:
+           nvidia.com/gpu: 1
+           cpu: 8
+           memory: 64Gi
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 8
+            memory: 64Gi
+        volumeMounts:
+        - name: images
+          mountPath: /data
+      restartPolicy: Never

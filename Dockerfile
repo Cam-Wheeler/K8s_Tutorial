@@ -26,11 +26,15 @@ COPY --from=builder /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Lets copy of the source now
-COPY conf src main.py /app/ 
+COPY conf ./conf/
+COPY src ./src
+COPY main.py .
 
 # CMD ["python", "main.py"] We do not really need to have this unless we are testing locally, we use K8s for the command
 
 FROM builder AS development
+
+WORKDIR /app
 
 # Install some things we might need when debugging or monitoring.
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -44,6 +48,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 COPY --from=builder /app/.venv /app/.venv
 
-COPY conf src main.py /app/
+COPY conf ./conf/
+COPY src ./src
+COPY main.py .
 
 # Again no real need for a CMD here, we will be running it in K8s
