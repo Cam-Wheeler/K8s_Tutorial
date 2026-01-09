@@ -22,8 +22,14 @@ spec:
           claimName: cwheeler-data
       containers:
       - name: training-pod
-        image: camwheeler135/k8s_tutorial_uv:0.0.1 
+        image: camwheeler135/k8s_tutorial_uv:0.0.2
         imagePullPolicy: Always
+        env:
+        - name: WANDB_API_KEY 
+          valueFrom:
+            secretKeyRef:
+              name: k8s-tutorial-secrets
+              key: wandb-api-key
         command: ["/bin/bash", "-c"]
         args:
         - |

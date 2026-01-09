@@ -8,6 +8,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 from pathlib import Path
 import json
 from datetime import datetime
+import dotenv
 
 from src.datasets import get_cifar10_dataloaders
 from src.transforms import get_train_transforms, get_test_transforms
@@ -17,6 +18,9 @@ from src.trainer import Trainer
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:
     """Main function to setup and run training."""
+
+    # Load the env so we can log to wandb (in k8s we will set the api-key with secrets).
+    dotenv.load_dotenv()
 
     print("Configuration:", flush=True)
     for key, value in cfg.items():

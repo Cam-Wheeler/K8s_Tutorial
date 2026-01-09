@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from tqdm import tqdm
 import json
 from pathlib import Path
-
+import wandb
 
 class Trainer:
     """
@@ -58,6 +58,17 @@ class Trainer:
             "test_acc": []
         }
         self.best_acc = 0.0
+        self.run = wandb.init(
+            entity="camwheeler135-university-of-edinburgh",
+            project="k8s_tutorial",
+            config={
+                "model": self.model,
+                "criterion": self.criterion,
+                "optimizer": self.optimizer,
+                "lr_scheduler": self.scheduler,
+                "dataset": "CIFAR10"                
+            }
+        )
 
     def train_epoch(self) -> tuple[float, float]:
         """
@@ -209,6 +220,15 @@ class Trainer:
             self.history["test_loss"].append(test_loss)
             self.history["test_acc"].append(test_acc)
 
+            # Send the data to wandb
+            self.run.log({
+                "epoch": epoch,
+                "train_loss": train_loss,
+                "train_acc": train_acc,
+                "test_loss": test_loss,
+                "test_acc": test_acc
+                })
+
             print(f"\nTrain Loss: {train_loss:.4f}, Train Acc: {train_acc:.2f}%")
             print(f"Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}%")
 
@@ -224,6 +244,8 @@ class Trainer:
             json.dump(self.history, f, indent=2)
         print(f"Training history saved to {history_path}")
 
+        # Training is done, we need to clean up the wandb stuff. 
+        self.run.finish()
         return self.history
 
     def get_history(self) -> Dict[str, list]:
