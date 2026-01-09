@@ -1,8 +1,4 @@
-# 1. Use a separate build stage to keep the final image clean
 FROM nvidia/cuda:13.1.0-runtime-ubuntu24.04 AS builder
-
-# Update apt.
-RUN apt-get update && rm -rf /var/lib/apt/lists/*
 
 # Lets grab uv
 COPY --from=ghcr.io/astral-sh/uv:0.9.22 /uv /uvx /bin/
@@ -31,6 +27,7 @@ COPY src ./src
 COPY main.py .
 
 # CMD ["python", "main.py"] We do not really need to have this unless we are testing locally, we use K8s for the command
+# A note for anyone that cares, we do not use uv run here as we have only copied over the venv, not uv. Just run python ....
 
 FROM builder AS development
 
@@ -52,4 +49,4 @@ COPY conf ./conf/
 COPY src ./src
 COPY main.py .
 
-# Again no real need for a CMD here, we will be running it in K8s
+# Again no real need for a CMD here, we will be running it in K8s but we can use UV here : ) 
