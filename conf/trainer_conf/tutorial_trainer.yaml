@@ -1,0 +1,6 @@
+# USE ME IN THE TUTORIAL
+
+learning_rate: 0.001
+weight_decay: 0.0001
+epochs: 10
+device: <add the device your system uses here>

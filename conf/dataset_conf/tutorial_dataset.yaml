@@ -1,0 +1,6 @@
+# USE ME IN THE TUTORIAL
+
+data_dir: <paste your absolute path here>/k8s_tutorial/data # For example mine would be /Users/cameronwheeler/code/k8s_tutorial/data
+batch_size: 64
+num_workers: 4
+save_path: <paste your absolute path here>/k8s_tutorial/checkpoints/best_model.pth # For example mine would be /Users/cameronwheeler/code/k8s_tutorial/checkpoints

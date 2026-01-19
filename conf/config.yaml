@@ -1,5 +1,5 @@
 defaults:
   - model_conf: small_simple_cnn
-  - trainer_conf: default_trainer
-  - dataset_conf: local
+  - trainer_conf: cam_default_mac_trainer
+  - dataset_conf: cam_local_mac
   - _self_
