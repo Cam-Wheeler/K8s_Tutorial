@@ -27,7 +27,7 @@ def main(cfg: DictConfig) -> None:
         print(f"  {key}: {value}", flush=True)
 
     # Set device
-    device = torch.device(cfg["device"])
+    device = torch.device(cfg["trainer_conf"]["device"])
     print(f"Using device: {device}")
 
     # Get transforms

@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-01-06T09:37:27.690311",
-  "best_test_accuracy": 73.68,
-  "final_train_loss": 0.680277196457014,
-  "final_train_accuracy": 76.264,
-  "final_test_loss": 0.7664561470982375,
-  "final_test_accuracy": 73.62,
-  "total_epochs": 50,
+  "timestamp": "2026-01-19T10:22:13.127820",
+  "best_test_accuracy": 60.09,
+  "final_train_loss": 1.0821671682550473,
+  "final_train_accuracy": 61.514,
+  "final_test_loss": 1.1220464717810321,
+  "final_test_accuracy": 60.09,
+  "total_epochs": 10,
   "config": {
     "model_conf": {
       "model_name": "simple_cnn",
@@ -17,14 +17,14 @@
     "trainer_conf": {
       "learning_rate": 0.001,
       "weight_decay": 0.0001,
-      "epochs": 50
+      "epochs": 10,
+      "device": "cpu"
     },
     "dataset_conf": {
-      "data_dir": "./data",
+      "data_dir": "/Users/cameronwheeler/code/k8s_tutorial/data",
       "batch_size": 64,
       "num_workers": 4,
-      "save_path": "./checkpoints/best_model.pth"
-    },
-    "device": "mps"
+      "save_path": "/Users/cameronwheeler/code/k8s_tutorial/checkpoints/best_model.pth"
+    }
   }
 }

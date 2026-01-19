@@ -1,4 +1,4 @@
-data_dir: ./data
+data_dir: /Users/cameronwheeler/code/k8s_tutorial/data
 batch_size: 64
 num_workers: 4
-save_path: ./checkpoints/best_model.pth
+save_path: /Users/cameronwheeler/code/k8s_tutorial/checkpoints/best_model.pth
