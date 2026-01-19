@@ -1,0 +1,4 @@
+data_dir: /home/cam-wheeler/code/k8s_tutorial/data
+batch_size: 64
+num_workers: 4
+save_path: /home/cam-wheeler/code/k8s_tutorial/checkpoints/best_model.pth
