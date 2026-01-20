@@ -24,49 +24,68 @@ This is the codebase for the EIDF Tutorial. It is a simple ML training job that 
 
 - Make sure docker is up and running. There should be a docker emblem in your dock.
 
-- If you are on a non apple silicon system run:
-    `docker build -f Dockerfile.simple -t <your_docker_username>/k8s_tutorial_simple:0.0.1 .`
-   
-   If you are on a mac, run:
-    `docker buildx build --platform=linux/amd64 -f Dockerfile.simple -t <your_docker_username>/k8s_tutorial_simple:0.0.1 .`
+- If you are on a non Apple Silicon system run:
+
+```bash
+docker build -f Dockerfile.simple -t <your_docker_username>/k8s_tutorial_simple:0.0.1 .
+```
+
+- If you are on a Mac with Apple Silicon, run:
+
+```bash
+docker buildx build --platform=linux/amd64 -f Dockerfile.simple -t <your_docker_username>/k8s_tutorial_simple:0.0.1 .
+```
 
 - The image will take a while to build on your first run!
 
 #### Run Docker Locally (Optional)
 
-- Once your image is build lets run it locally.
+- Once your image is built, let's run it locally.
+
+- **Note:** If you don't have the NVIDIA Container Toolkit installed and want to test locally, you'll need to rebuild the image with the device set to `cpu` in your trainer config.
 
 - Run the following:
 
 ```bash
-docker run \                                                                                                            
+docker run \
   --volume <path to save checkpoints>:<path to save checkpoints> \
   --env-file <path to env file if you made one> \
-  <your docker image name>\
+  <your docker image name> \
   python3 main.py dataset_conf=tutorial_dataset trainer_conf=tutorial_trainer
 ```
 
-If you set up an environment variable instead of a `.env` file use this instead:
+If you set up an environment variable instead of a `.env` file, use this instead:
 
 ```bash
-docker run \                                                                                                            
+docker run \
   --volume <path to save checkpoints>:<path to save checkpoints> \
   --env WANDB_API_KEY=<your key here> \
-  <your docker image name>\
+  <your docker image name> \
   python3 main.py dataset_conf=tutorial_dataset trainer_conf=tutorial_trainer
 ```
 
-For example, mine looks like this...
+For example, mine looks like this:
 
 ```bash
-docker run \                                                                                                            
+docker run \
   --volume /Users/cameronwheeler/code/k8s_tutorial/checkpoints/:/Users/cameronwheeler/code/k8s_tutorial/checkpoints/ \
   --env-file /Users/cameronwheeler/code/k8s_tutorial/.env \
   camwheeler135/k8s_tutorial_uv:0.0.3 \
   uv run main.py dataset_conf=local trainer_conf=docker_local_trainer
 ```
 
-- Training should run inside the docker container this time! Again, check wandb to ensure its logged!
+- If you have the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed, you can use the `--gpus` flag to speed up training:
+
+```bash
+docker run \
+  --gpus all \
+  --volume <path to save checkpoints>:<path to save checkpoints> \
+  --env-file <path to env file if you made one> \
+  <your docker image name> \
+  python3 main.py dataset_conf=tutorial_dataset trainer_conf=tutorial_trainer
+```
+
+- Training should run inside the docker container this time! Again, check Wandb to ensure it's logging correctly.
 
 #### Push To Docker Hub
 
@@ -74,20 +93,18 @@ docker run \
 
 - Push to your docker hub `docker push <your_docker_username>/k8s_tutorial_simple:0.0.1`
 
-### Lets Run On The HPC Cluster
+### Let's Run On The HPC Cluster
 
-- SSH into your cluster. For me thats `ssh med_k8s` 
+- SSH into your cluster. For me that's `ssh med_k8s`.
 
-- Edit the `k8s/training_job_simple.yaml` file to include your credentials (mine wont work for your id).
+- Edit the `k8s/training_job_simple.yaml` file to include your credentials (mine won't work for your ID).
 
 - Sync the k8s directory to the cluster `rsync -r k8s med_k8s:k8s_tutorial` (making sure the k8s_tutorial dir exists on the cluster already).
 
 - Submit your job with `kubectl create training_job_simple.yaml`
 
-- Run `kubectl get pods` and get your pods name.
+- Run `kubectl get pods` and get your pod's name.
 
 - Monitor the logs of the training job with `kubectl log follow <your_pod_name>`
 
-- Done : )
-
-
+- Done :)
