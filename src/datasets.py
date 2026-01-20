@@ -1,4 +1,3 @@
-import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from typing import Tuple
@@ -10,7 +9,7 @@ def get_cifar10_dataloaders(
     test_transforms=None,
     batch_size: int = 32,
     num_workers: int = 4,
-    pin_memory: bool = True
+    pin_memory: bool = True,
 ) -> Tuple[DataLoader, DataLoader]:
     """
     Create CIFAR10 train and test dataloaders.
@@ -26,22 +25,16 @@ def get_cifar10_dataloaders(
     Returns:
         Tuple of (train_dataloader, test_dataloader)
     """
-    # Make sure we assign some data directory. 
+    # Make sure we assign some data directory.
     if data_dir is None:
         raise ValueError("Data directory is not assigned. Please assign.")
 
     train_dataset = datasets.CIFAR10(
-        root=data_dir,
-        train=True,
-        download=True,
-        transform=train_transforms
+        root=data_dir, train=True, download=True, transform=train_transforms
     )
 
     test_dataset = datasets.CIFAR10(
-        root=data_dir,
-        train=False,
-        download=True,
-        transform=test_transforms
+        root=data_dir, train=False, download=True, transform=test_transforms
     )
 
     train_dataloader = DataLoader(
@@ -50,7 +43,7 @@ def get_cifar10_dataloaders(
         shuffle=True,
         num_workers=num_workers,
         pin_memory=pin_memory,
-        persistent_workers=True
+        persistent_workers=True,
     )
 
     test_dataloader = DataLoader(
@@ -59,7 +52,7 @@ def get_cifar10_dataloaders(
         shuffle=False,
         num_workers=num_workers,
         pin_memory=pin_memory,
-        persistent_workers=True
+        persistent_workers=True,
     )
 
     return train_dataloader, test_dataloader
@@ -68,6 +61,14 @@ def get_cifar10_dataloaders(
 def get_class_names() -> list:
     """Get CIFAR10 class names."""
     return [
-        "airplane", "automobile", "bird", "cat", "deer",
-        "dog", "frog", "horse", "ship", "truck"
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck",
     ]

@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import wandb
 
+
 class Trainer:
     """
     Trainer class for managing model training and evaluation.
@@ -21,7 +22,7 @@ class Trainer:
         optimizer: torch.optim.Optimizer,
         scheduler: Optional[torch.optim.lr_scheduler._LRScheduler] = None,
         device: torch.device | None = None,
-        save_path: str = "best_model.pth"
+        save_path: str = "best_model.pth",
     ):
         """
         Initialize the Trainer.
@@ -55,7 +56,7 @@ class Trainer:
             "train_loss": [],
             "train_acc": [],
             "test_loss": [],
-            "test_acc": []
+            "test_acc": [],
         }
         self.best_acc = 0.0
         self.run = wandb.init(
@@ -66,8 +67,8 @@ class Trainer:
                 "criterion": self.criterion,
                 "optimizer": self.optimizer,
                 "lr_scheduler": self.scheduler,
-                "dataset": "CIFAR10"                
-            }
+                "dataset": "CIFAR10",
+            },
         )
 
     def train_epoch(self) -> tuple[float, float]:
@@ -100,13 +101,12 @@ class Trainer:
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
 
-            progress_bar.set_postfix({
-                'loss': running_loss / (batch_idx + 1),
-                'acc': 100. * correct / total
-            })
+            progress_bar.set_postfix(
+                {"loss": running_loss / (batch_idx + 1), "acc": 100.0 * correct / total}
+            )
 
         epoch_loss = running_loss / len(self.train_dataloader)
-        epoch_acc = 100. * correct / total
+        epoch_acc = 100.0 * correct / total
 
         return epoch_loss, epoch_acc
 
@@ -136,13 +136,15 @@ class Trainer:
                 total += targets.size(0)
                 correct += predicted.eq(targets).sum().item()
 
-                progress_bar.set_postfix({
-                    'loss': running_loss / (batch_idx + 1),
-                    'acc': 100. * correct / total
-                })
+                progress_bar.set_postfix(
+                    {
+                        "loss": running_loss / (batch_idx + 1),
+                        "acc": 100.0 * correct / total,
+                    }
+                )
 
         epoch_loss = running_loss / len(self.test_dataloader)
-        epoch_acc = 100. * correct / total
+        epoch_acc = 100.0 * correct / total
 
         return epoch_loss, epoch_acc
 
@@ -155,19 +157,21 @@ class Trainer:
             is_best: Whether this is the best model so far
         """
         checkpoint = {
-            'epoch': epoch,
-            'model_state_dict': self.model.state_dict(),
-            'optimizer_state_dict': self.optimizer.state_dict(),
-            'best_acc': self.best_acc,
-            'history': self.history
+            "epoch": epoch,
+            "model_state_dict": self.model.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "best_acc": self.best_acc,
+            "history": self.history,
         }
 
         if self.scheduler is not None:
-            checkpoint['scheduler_state_dict'] = self.scheduler.state_dict()
+            checkpoint["scheduler_state_dict"] = self.scheduler.state_dict()
 
         if is_best:
             torch.save(checkpoint, self.save_path)
-            print(f"Model saved to {self.save_path} with accuracy: {self.best_acc:.2f}%")
+            print(
+                f"Model saved to {self.save_path} with accuracy: {self.best_acc:.2f}%"
+            )
 
     def load_checkpoint(self, checkpoint_path: str):
         """
@@ -178,22 +182,20 @@ class Trainer:
         """
         checkpoint = torch.load(checkpoint_path, map_location=self.device)
 
-        self.model.load_state_dict(checkpoint['model_state_dict'])
-        self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        self.model.load_state_dict(checkpoint["model_state_dict"])
+        self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
 
-        if self.scheduler is not None and 'scheduler_state_dict' in checkpoint:
-            self.scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+        if self.scheduler is not None and "scheduler_state_dict" in checkpoint:
+            self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
 
-        self.best_acc = checkpoint.get('best_acc', 0.0)
-        self.history = checkpoint.get('history', {
-            "train_loss": [],
-            "train_acc": [],
-            "test_loss": [],
-            "test_acc": []
-        })
+        self.best_acc = checkpoint.get("best_acc", 0.0)
+        self.history = checkpoint.get(
+            "history",
+            {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []},
+        )
 
         print(f"Checkpoint loaded from {checkpoint_path}")
-        return checkpoint.get('epoch', 0)
+        return checkpoint.get("epoch", 0)
 
     def train(self, epochs: int, start_epoch: int = 0):
         """
@@ -221,13 +223,15 @@ class Trainer:
             self.history["test_acc"].append(test_acc)
 
             # Send the data to wandb
-            self.run.log({
-                "epoch": epoch,
-                "train_loss": train_loss,
-                "train_acc": train_acc,
-                "test_loss": test_loss,
-                "test_acc": test_acc
-                })
+            self.run.log(
+                {
+                    "epoch": epoch,
+                    "train_loss": train_loss,
+                    "train_acc": train_acc,
+                    "test_loss": test_loss,
+                    "test_acc": test_acc,
+                }
+            )
 
             print(f"\nTrain Loss: {train_loss:.4f}, Train Acc: {train_acc:.2f}%")
             print(f"Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}%")
@@ -240,11 +244,11 @@ class Trainer:
 
         # Save training history to JSON file
         history_path = Path(self.save_path).parent / "training_history.json"
-        with open(history_path, 'w') as f:
+        with open(history_path, "w") as f:
             json.dump(self.history, f, indent=2)
         print(f"Training history saved to {history_path}")
 
-        # Training is done, we need to clean up the wandb stuff. 
+        # Training is done, we need to clean up the wandb stuff.
         self.run.finish()
         return self.history
 
