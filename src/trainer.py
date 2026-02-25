@@ -22,6 +22,7 @@ class Trainer:
         optimizer: torch.optim.Optimizer,
         scheduler: Optional[torch.optim.lr_scheduler._LRScheduler] = None,
         device: torch.device | None = None,
+        wandb_entity_name: str = "camwheeler135-university-of-edinburgh",
         save_path: str = "best_model.pth",
     ):
         """
@@ -60,7 +61,7 @@ class Trainer:
         }
         self.best_acc = 0.0
         self.run = wandb.init(
-            entity="camwheeler135-university-of-edinburgh",
+            entity=wandb_entity_name,
             project="k8s_tutorial",
             config={
                 "model": self.model,

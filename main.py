@@ -30,6 +30,9 @@ def main(cfg: DictConfig) -> None:
     device = torch.device(cfg["trainer_conf"]["device"])
     print(f"Using device: {device}")
 
+    # Set the logging
+    wandb_entity_name = cfg["trainer_conf"]["wandbd_entity_name"]
+
     # Get transforms
     train_transforms = get_train_transforms()
     test_transforms = get_test_transforms()
@@ -73,6 +76,7 @@ def main(cfg: DictConfig) -> None:
         optimizer=optimizer,
         scheduler=scheduler, # type: ignore again moan moan moan.
         device=device,
+        wandb_entity_name=wandb_entity_name,
         save_path=cfg["dataset_conf"]["save_path"]
     )
 
