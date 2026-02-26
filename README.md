@@ -1,4 +1,4 @@
-## K8s Tutorial
+##  Tutorial
 
 This is the codebase for the EIDF Tutorial. It is a simple ML training job that trains some CNNs on CIFAR10. Follow the steps below to get it up and running.
 
@@ -100,9 +100,9 @@ We recommend that you store all persistent data in the PVC.
 ```
 # Create personal directory in the mounted directory from VM: 
 mkdir /home/eidf231/eidf231/shared/<your_username>
+cd /home/eidf231/eidf231/shared/<your_username>
 
 # Clone git repository to the created directory for demo experiment: 
-cd /home/eidf231/eidf231/shared/<your_username>
 git clone https://github.com/Cam-Wheeler/K8s_Tutorial.git
 cd K8s_Tutorial
 
@@ -115,7 +115,7 @@ wandb_entity_name: <your_entity_name> # replace <your_entity_name> with your ent
 
 ### Let's Run On EIDF
 
-SSH into EIDF via VSC Remote Explorer. You can also choose to use commandline:
+SSH into EIDF via VSC Remote Explorer. You can also choose to use command line:
 
 ```
 ssh -J <your_username>@eidf-gateway.epcc.ed.ac.uk <your_username>@10.24.8.217
