@@ -95,6 +95,14 @@ Make sure you are logged into the docker cli `docker login`
 
 Push to your docker hub `docker push <your_docker_username>/k8s_tutorial_simple:0.0.1`
 
+## Let's Run on EIDF
+
+SSH into EIDF via VSC Remote Explorer. You can also choose to use command line:
+
+```
+ssh -J <your_username>@eidf-gateway.epcc.ed.ac.uk <your_username>@10.24.8.217
+```
+
 ### Data Management
 
 We recommend that you store all persistent data in the PVC.
@@ -115,15 +123,10 @@ echo "WANDB_API_KEY=<your_API_key>" > .env
 wandb_entity_name: <your_entity_name> # replace <your_entity_name> with your entity name
 ```
 
-### Let's Run On EIDF
+### Working with Jobs and Pods
 
-SSH into EIDF via VSC Remote Explorer. You can also choose to use command line:
-
-```
-ssh -J <your_username>@eidf-gateway.epcc.ed.ac.uk <your_username>@10.24.8.217
-```
-
-Replace `<your_username>` in `k8s/tutorial_job.yaml` to your actual username. (e.g. `clee_ai4bi`)
+Replace `<your_username>` in `k8s/tutorial_job.yaml` with your actual username. (e.g. `clee_ai4bi`)
+Replace `<your-name>` with your name without underscore. (e.g. `chaeeun`)
 
 ```
 

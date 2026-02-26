@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: <your_username>-test-job-
+  generateName: <your-name>-test-job-
   labels:
     eidf/user: <your_username>
     kueue.x-k8s.io/queue-name: eidf231ns-user-queue
