@@ -125,8 +125,7 @@ wandb_entity_name: <your_entity_name> # replace <your_entity_name> with your ent
 
 ### Working with Jobs and Pods
 
-Replace `<your_username>` in `k8s/tutorial_job.yaml` with your actual username. (e.g. `clee_ai4bi`)
-Replace `<your-name>` with your name without underscore. (e.g. `chaeeun`)
+Replace `<your_username>` in `k8s/tutorial_job.yaml` with your actual username. (e.g. `clee_ai4bi`) and `<your-name>` with your name without underscore. (e.g. `chaeeun`)
 
 ```
 
