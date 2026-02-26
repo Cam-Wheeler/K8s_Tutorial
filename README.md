@@ -1,4 +1,6 @@
-##  Tutorial
+[![](https://img.shields.io/badge/Google%20Drive-Slides-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://docs.google.com/presentation/d/1yEPQwNHsbg0spMPO39ffmpgobnO2t9rPQEjjIN_hXNc/edit?usp=sharing)
+
+## Tutorial
 
 This is the codebase for the EIDF Tutorial. It is a simple ML training job that trains some CNNs on CIFAR10. Follow the steps below to get it up and running.
 
