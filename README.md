@@ -102,8 +102,9 @@ We recommend that you store all persistent data in the PVC.
 mkdir /home/eidf231/eidf231/shared/<your_username>
 
 # Clone git repository to the created directory for demo experiment: 
+cd /home/eidf231/eidf231/shared/<your_username>
 git clone https://github.com/Cam-Wheeler/K8s_Tutorial.git
-cd /home/eidf231/eidf231/shared/<your_username>/K8s_Tutorial
+cd K8s_Tutorial
 
 # Fill in your WANDB API key in .env
 echo "WANDB_API_KEY=<your_API_key>" > .env
