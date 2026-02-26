@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: <your_username>-test-job-
+  labels:
+    eidf/user: <your_username>
+    kueue.x-k8s.io/queue-name: eidf231ns-user-queue
+    kueue.x-k8s.io/priority-class: batch-workload-priority
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 6000 # Sets the TTL to delete the job once its done.
+  template:
+    metadata:
+      labels:
+        eidf/user: <your_username>
+    spec:
+      nodeSelector:
+        nvidia.com/gpu.product: "NVIDIA-A100-SXM4-40GB"
+      volumes:
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 50Gi
+        name: dshm
+      - name: ai4bi-ceph
+        persistentVolumeClaim:
+          claimName: ai4bi-pvc
+      containers:
+      - name: tutorial-image
+        image: camwheeler135/k8s_tutorial_final:v0.0.1
+        imagePullPolicy: Always
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          cd /ai4bi_ceph/<your_username>/K8s_Tutorial
+          python3 main.py dataset_conf=hpc_cluster model_conf=small_simple_cnn trainer_conf=hpc_cluster_trainer
+        resources:
+          requests:
+           nvidia.com/gpu: 1
+           cpu: 8
+           memory: 64Gi
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 8
+            memory: 64Gi
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /ai4bi_ceph
+          name: ai4bi-ceph
+      restartPolicy: Never

@@ -15,3 +15,8 @@ outputs
 .*
 wandb
 cluster_training_results
+
+.env
+
+checkpoints/
+checkpoints/*

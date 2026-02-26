@@ -1,5 +1,5 @@
 learning_rate: 0.001
 weight_decay: 0.0001
-epochs: 100
+epochs: 5
 device: cuda
-wandbd_entity_name: camwheeler135-university-of-edinburgh
+wandb_entity_name: <your_entity_name>

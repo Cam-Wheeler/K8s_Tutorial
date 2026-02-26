@@ -31,7 +31,7 @@ def main(cfg: DictConfig) -> None:
     print(f"Using device: {device}")
 
     # Set the logging
-    wandb_entity_name = cfg["trainer_conf"]["wandbd_entity_name"]
+    wandb_entity_name = cfg["trainer_conf"]["wandb_entity_name"]
 
     # Get transforms
     train_transforms = get_train_transforms()

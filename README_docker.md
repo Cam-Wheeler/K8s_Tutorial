@@ -93,45 +93,18 @@ Make sure you are logged into the docker cli `docker login`
 
 Push to your docker hub `docker push <your_docker_username>/k8s_tutorial_simple:0.0.1`
 
-### Data Management
+### Let's Run On The HPC Cluster
 
-We recommend that you store all persistent data in the PVC.
+SSH into your cluster. For me that's `ssh med_k8s`.
 
-```
-# Create personal directory in the mounted directory from VM: 
-mkdir /home/eidf231/eidf231/shared/<your_username>
+Edit the `k8s/training_job_simple.yaml` file to include your credentials (mine won't work for your ID).
 
-# Clone git repository to the created directory for demo experiment: 
-git clone https://github.com/Cam-Wheeler/K8s_Tutorial.git
-cd /home/eidf231/eidf231/shared/<your_username>/K8s_Tutorial
+Sync the k8s directory to the cluster `rsync -r k8s med_k8s:k8s_tutorial` (making sure the k8s\_tutorial dir exists on the cluster already).
 
-# Fill in your WANDB API key in .env
-echo "WANDB_API_KEY=<your_API_key>" > .env
+Submit your job with `kubectl create training_job_simple.yaml`
 
-# Edit trainer config (e.g. wandb entity name) to match yours in conf/trainer_conf/hpc_cluster_trainer.yaml
-wandb_entity_name: <your_entity_name> # replace <your_entity_name> with your entity name
-```
+Run `kubectl get pods` and get your pod's name.
 
-### Let's Run On EIDF
-
-SSH into EIDF via VSC Remote Explorer. You can also choose to use commandline:
-
-```
-ssh -J <your_username>@eidf-gateway.epcc.ed.ac.uk <your_username>@10.24.8.217
-```
-
-Replace `<your_username>` in `k8s/tutorial_job.yaml` to your actual username. (e.g. `clee_ai4bi`)
-
-```
-
-# Submit the Kubernetes job
-kubectl --namespace eidf231ns create -f k8s/tutorial_job.yaml
-
-# Check that your pod is created and get its name
-kubectl --namespace eidf231ns get pods
-
-# Stream logs from the training job
-kubectl --namespace eidf231ns logs -f <your_pod_name>
-```
+Monitor the logs of the training job with `kubectl log follow <your_pod_name>`
 
 Done :)
